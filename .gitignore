@@ -31,5 +31,14 @@ yarn-error.*
 # local env files
 .env*.local
 
+# expo-env.d
+expo-env.d.ts
+
+# gitignore
+.gitignore
+
+# google-services
+google-services.json
+
 # typescript
 *.tsbuildinfo
