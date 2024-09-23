@@ -1,8 +1,10 @@
-import { Tabs } from "expo-router";
+import { Tabs, useSegments } from "expo-router";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function AuthenticatedLayout() {
+  const segments = useSegments();
+
   return (
     <Tabs
       screenOptions={{
@@ -11,6 +13,9 @@ export default function AuthenticatedLayout() {
           fontSize: 16,
         },
         headerShown: false,
+        tabBarStyle: {
+          display: segments[3] === "(chat)" ? "none" : "flex",
+        },
       }}
     >
       <Tabs.Screen

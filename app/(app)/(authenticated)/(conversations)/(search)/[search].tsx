@@ -8,7 +8,6 @@ import Loader from "@/components/Loader";
 
 export default function SearchResults() {
   const { search } = useLocalSearchParams();
-
   const { isLoading, isError, error, data } = useFindUsers(search.toString());
 
   return (

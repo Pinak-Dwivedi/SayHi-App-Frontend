@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "246775189321",
+    "project_id": "sayhi-f7dbc",
+    "storage_bucket": "sayhi-f7dbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246775189321:android:40dbf83f17d3383c6d1498",
+        "android_client_info": {
+          "package_name": "com.pinakdwivedi.SayHi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246775189321-5e9ohoh41ib27knprc8l8mhtjnoio6ih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pinakdwivedi.SayHi",
+            "certificate_hash": "004120c98e53070e4b0015c744f3b652ff84d5e3"
+          }
+        },
+        {
+          "client_id": "246775189321-dou3dpmdpvj6fed8v8d9v08o0k002l7l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pinakdwivedi.SayHi",
+            "certificate_hash": "be19d41a88d40fedd8bff913396028b4ecc54b9d"
+          }
+        },
+        {
+          "client_id": "246775189321-o8dn8nv2jor7supmiklgqf0i6i139ee4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pinakdwivedi.SayHi",
+            "certificate_hash": "f5fc574066a65d5119d415ac844ecbeeb186236a"
+          }
+        },
+        {
+          "client_id": "246775189321-ss75vggmb1ceqifg3qm2568aq87etqgc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pinakdwivedi.SayHi",
+            "certificate_hash": "a5009cb083a074e1d299b4dbcd4c2d733654ee1d"
+          }
+        },
+        {
+          "client_id": "246775189321-jooqd17t34it4up36n2rri5v15v5tql0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaWiZ6ZiZa2vEY2UvT573UxtsJ3C5mQPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246775189321-jooqd17t34it4up36n2rri5v15v5tql0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,6 +13,4 @@ export default function getImageBase64(image: any) {
     return `${base64Header}png;base64,${image?.base64}`;
 
   return `data:${image?.mimeType};base64,${image?.base64}`;
-
-  // return "Please select only png|jpeg|jpg format image";
 }

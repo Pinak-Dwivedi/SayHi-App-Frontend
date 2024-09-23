@@ -33,11 +33,6 @@ export default function ImageUploadModal({
     if (!result?.canceled) {
       const base64Image = getImageBase64(result?.assets?.[0]);
 
-      // removing frontend validation
-      // if (base64Image === "Please select only png|jpeg|jpg format image")
-      //   return;
-      // can show a form error here
-
       setImage(base64Image);
 
       return;

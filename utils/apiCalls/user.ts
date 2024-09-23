@@ -31,6 +31,7 @@ type UpdateParams = {
   userId: string;
   username: string;
   email: string;
+  googleId?: string;
   profileImage: string | null;
   token: Token;
 };
@@ -76,10 +77,26 @@ type GetFriendsParams = {
   token: Token;
 };
 
+interface GetFriendsResponse extends ApiResponse {
+  friends: {
+    id: string;
+    username: string;
+    profileImage?: string;
+  }[];
+}
+
 type FindUsersParams = {
   search: string;
   token: Token;
 };
+
+interface FindUsersResponse extends ApiResponse {
+  users: {
+    id: string;
+    username: string;
+    profileImage?: string;
+  }[];
+}
 
 // login
 
@@ -148,7 +165,7 @@ export async function signup(
 
 export async function update(userData: UpdateParams): Promise<UpdateResponse> {
   try {
-    const { userId, username, email, profileImage, token } = userData;
+    const { userId, username, email, googleId, profileImage, token } = userData;
 
     const result = await fetcher(
       `${SERVER_URL}/users/${userId}`,
@@ -156,6 +173,7 @@ export async function update(userData: UpdateParams): Promise<UpdateResponse> {
       JSON.stringify({
         username,
         email,
+        googleId,
         profileImage,
       }),
       token
@@ -292,11 +310,9 @@ export async function addFriend(
 
 // get friends
 
-export async function getFriends(userData: GetFriendsParams): Promise<
-  ApiResponse & {
-    friends?: any[];
-  }
-> {
+export async function getFriends(
+  userData: GetFriendsParams
+): Promise<GetFriendsResponse> {
   try {
     const { userId, token } = userData;
 
@@ -317,11 +333,9 @@ export async function getFriends(userData: GetFriendsParams): Promise<
 
 // find users
 
-export async function findUsers(userData: FindUsersParams): Promise<
-  ApiResponse & {
-    users?: any[];
-  }
-> {
+export async function findUsers(
+  userData: FindUsersParams
+): Promise<FindUsersResponse> {
   try {
     const { search, token } = userData;
 

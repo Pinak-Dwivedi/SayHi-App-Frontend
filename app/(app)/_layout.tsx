@@ -12,7 +12,7 @@ import { useFonts } from "expo-font";
 SplashScreen.preventAutoHideAsync();
 
 export default function AppLayout() {
-  const [isNavigationReady, setNavigationReady] = useState(false);
+  const [isNavigationReady, setIsNavigationReady] = useState(false);
   const rootNavigationRef = useNavigationContainerRef();
   const segments = useSegments();
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function AppLayout() {
 
   useEffect(() => {
     const unsubscribe = rootNavigationRef.addListener("state", (event) => {
-      setNavigationReady(true);
+      setIsNavigationReady(true);
     });
 
     return function cleanup() {
@@ -58,9 +58,8 @@ export default function AppLayout() {
     isNavigationReady,
     isLoading,
     isError,
-    data,
     data?.success,
-    segments,
+    segments[1],
     fontsLoaded,
     isInitializing,
   ]);

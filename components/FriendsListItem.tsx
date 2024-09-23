@@ -1,26 +1,24 @@
-import {
-  View,
-  Pressable,
-  Image,
-  TouchableOpacity,
-  ToastAndroid,
-  Platform,
-} from "react-native";
+import { View, Pressable, Image, TouchableOpacity } from "react-native";
 import Text from "@/components/Text";
 import { FontAwesome } from "@expo/vector-icons";
 import { router, useSegments } from "expo-router";
 import useAddFriend from "@/hooks/useAddFriend";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 type FriendsListItemProps = {
-  item: any;
+  item: {
+    id: string;
+    username: string;
+    profileImage?: string;
+  };
 };
 
 export default function FriendsListItem({ item }: FriendsListItemProps) {
   const segments = useSegments();
   const { user, token } = useSelector((state: RootState) => state.auth);
+  const { friends } = useSelector((state: RootState) => state.friends);
   const { mutate, data, isPending } = useAddFriend();
 
   function handleAddFriend() {
@@ -33,14 +31,15 @@ export default function FriendsListItem({ item }: FriendsListItemProps) {
 
   useEffect(() => {
     if (data?.success) {
-      if (Platform.OS === "android")
-        ToastAndroid.show(data.message, ToastAndroid.SHORT);
-
       router.back();
     }
   }, [data]);
 
   const isSearchPage = segments.includes("(search)" as never);
+  const isAlreadyFriend = useMemo(
+    () => friends.some((friend) => friend.username === item.username),
+    [item]
+  );
 
   const content = (
     <View
@@ -66,13 +65,13 @@ export default function FriendsListItem({ item }: FriendsListItemProps) {
 
       <Text className="text-xl text-dominant font-bold">{item?.username}</Text>
 
-      {isSearchPage && (
+      {isSearchPage && !isAlreadyFriend ? (
         <TouchableOpacity disabled={isPending} onPress={handleAddFriend}>
           <Text className="rounded-lg p-2 bg-dominant text-slate-50 text-lg">
             Add
           </Text>
         </TouchableOpacity>
-      )}
+      ) : null}
     </View>
   );
 
@@ -81,9 +80,7 @@ export default function FriendsListItem({ item }: FriendsListItemProps) {
       {isSearchPage ? (
         content
       ) : (
-        <Pressable
-          onPress={() => router.navigate(`./(chat)/${item?.username}`)}
-        >
+        <Pressable onPress={() => router.navigate(`/(chat)/${item?.username}`)}>
           {content}
         </Pressable>
       )}

@@ -63,7 +63,7 @@ export default function Login() {
         });
       }
     } catch (error) {
-      // console.log(error);
+      // console.error("google sign-in error", error);
     }
   }
 

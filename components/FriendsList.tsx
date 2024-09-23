@@ -2,7 +2,7 @@ import { FlatList, View } from "react-native";
 import FriendsListItem from "./FriendsListItem";
 
 type FriendsListProps = {
-  data?: any[];
+  data?: { id: string; username: string; profileImage?: string }[];
 };
 
 export default function FriendsList({ data }: FriendsListProps) {

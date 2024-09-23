@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { SEND_MESSAGE, TYPING_START, TYPING_STOP } from "@/utils/socketEvents";
+import { Socket } from "socket.io-client";
 
 export default function MessageBar({
   username,
   socket,
 }: {
   username: string;
-  socket: any;
+  socket: Socket | null;
 }) {
   const [content, setContent] = useState("");
   const { user } = useSelector((state: RootState) => state.auth);
@@ -27,18 +28,18 @@ export default function MessageBar({
     }
 
     function onFriendStoppedTyping() {
-      // console.log("friend typing start");
+      // console.log("friend typing stop");
       setIsFriendTyping(false);
     }
 
-    socket?.on(TYPING_START, onFriendTyping);
-    socket?.on(TYPING_STOP, onFriendStoppedTyping);
+    socket.on(TYPING_START, onFriendTyping);
+    socket.on(TYPING_STOP, onFriendStoppedTyping);
 
     return () => {
-      socket?.off(TYPING_START, onFriendTyping);
-      socket?.off(TYPING_STOP, onFriendStoppedTyping);
+      socket.off(TYPING_START, onFriendTyping);
+      socket.off(TYPING_STOP, onFriendStoppedTyping);
     };
-  }, [socket]);
+  }, [socket, socket?.connected]);
 
   function handleSendMessage() {
     if (!socket?.connected) return;
@@ -47,7 +48,7 @@ export default function MessageBar({
 
     setIsLoading(true);
 
-    socket?.emit(
+    socket.emit(
       SEND_MESSAGE,
       {
         senderUsername: user?.username,
@@ -64,13 +65,13 @@ export default function MessageBar({
   function handleTypingStart() {
     if (!socket?.connected) return;
 
-    socket?.emit(TYPING_START, { receiverUsername: username });
+    socket.emit(TYPING_START, { receiverUsername: username });
   }
 
   function handleTypingStop() {
     if (!socket?.connected) return;
 
-    socket?.emit(TYPING_STOP, { receiverUsername: username });
+    socket.emit(TYPING_STOP, { receiverUsername: username });
   }
 
   return (

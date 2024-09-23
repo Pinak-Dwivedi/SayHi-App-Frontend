@@ -13,13 +13,13 @@ export default function useAuth() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function onAuthStateChanged(user: any) {
+    async function handleAuthStateChanged(user: any) {
       if (user) setUser(user);
 
       if (isInitializing) setIsInitializing(false);
     }
 
-    const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
+    const unsubscribe = auth().onAuthStateChanged(handleAuthStateChanged);
 
     return unsubscribe;
   }, []);
@@ -59,18 +59,18 @@ export default function useAuth() {
               user: null,
             })
           );
-        } else if (data?.success) {
+        } else if (data.success) {
           await setItem(
             JSON.stringify({
-              token: data?.token,
-              user: data?.user,
+              token: data.token,
+              user: data.user,
             })
           );
 
           dispatch(
             setAuth({
-              token: data?.token,
-              user: data?.user,
+              token: data.token,
+              user: data.user,
             })
           );
         }
@@ -78,7 +78,7 @@ export default function useAuth() {
         // console.log("auth error", error);
       }
     })();
-  }, [isLoading, isInitializing, isError, data, data?.success]);
+  }, [isLoading, isInitializing, isError, data?.success]);
 
   return { authQuery, isInitializing };
 }

@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export type FriendType = {
+  id: string;
+  username: string;
+  profileImage?: string;
+};
+
 type FriendsState = {
-  friends: any[];
+  friends: FriendType[];
 };
 
 const initialState: FriendsState = {

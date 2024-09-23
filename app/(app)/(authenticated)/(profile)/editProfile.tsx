@@ -47,12 +47,25 @@ export default function EditProfile() {
     setImage(imageData);
   }
 
+  function getProfileImageForUpdate(imageData: string | null) {
+    if (typeof imageData === "string") {
+      // check if base64 string and that too proper image format jpg|jpeg|png
+      if (/^data:(image\/jpg|image\/jpeg|image\/png);base64.*/.test(imageData))
+        return imageData;
+
+      return null;
+    }
+
+    return null;
+  }
+
   function handleUpdate() {
     mutate({
       userId: user?.id!,
       username: userData.username,
       email: userData.email,
-      profileImage: image,
+      googleId: user?.googleId,
+      profileImage: getProfileImageForUpdate(image),
       token,
     });
   }

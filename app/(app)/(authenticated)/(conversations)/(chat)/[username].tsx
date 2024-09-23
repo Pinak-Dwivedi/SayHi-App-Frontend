@@ -9,39 +9,19 @@ import useGetMessages from "@/hooks/useGetMessages";
 import Loader from "@/components/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { io } from "socket.io-client";
-import { useEffect, useRef, useState } from "react";
-import {
-  WELCOME,
-  RECEIVE_MESSAGE,
-  ADD_USER,
-  CONNECT,
-  CONNECT_ERROR,
-} from "@/utils/socketEvents";
+import { useEffect, useState } from "react";
+import { RECEIVE_MESSAGE } from "@/utils/socketEvents";
 import Message from "@/types/Message";
+import { useSocket } from "@/components/SocketProvider";
 
 export default function Chat() {
   const { username } = useLocalSearchParams();
-  const { token, user } = useSelector((state: RootState) => state.auth);
-
-  const userAddedRef = useRef<boolean>(false);
-
-  const [socket] = useState<any>(() => {
-    userAddedRef.current = false;
-
-    return io(process.env.EXPO_PUBLIC_SOCKET_SERVER_URL!, {
-      extraHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  });
-
   const { isLoading, isError, error, data } = useGetMessages(
     username.toString()
   );
-
   const { friends } = useSelector((state: RootState) => state.friends);
   const [messages, setMessages] = useState<Message[] | []>([]);
+  const { socket } = useSocket();
 
   const friend = friends?.find(
     (friend) => friend.username === username.toString()
@@ -57,54 +37,23 @@ export default function Chat() {
   useEffect(() => {
     if (!socket?.connected) return;
 
-    // connect
-    function onConnect() {
-      // console.log("on connect", socket.id);
-    }
-
-    function onWelcome(message: string) {
-      // console.log(message);
-    }
-
     function onReceiveMessage(messageData: Message) {
-      // console.log("receive message");
-      // console.log(messageData);
+      // console.log("receive message", messageData);
 
       setMessages((prevMessages) => {
         return [...prevMessages, messageData];
       });
     }
 
-    function onConnectError(error: any) {
-      // console.log(error);
-    }
-
-    socket.on(CONNECT, onConnect);
-    socket?.on(WELCOME, onWelcome);
-    socket?.on(RECEIVE_MESSAGE, onReceiveMessage);
-    socket?.on(CONNECT_ERROR, onConnectError);
+    socket.on(RECEIVE_MESSAGE, onReceiveMessage);
 
     return () => {
-      // remove listener on unmount
-      socket?.off(CONNECT, onConnect);
-      socket?.off(WELCOME, onWelcome);
-      socket?.off(RECEIVE_MESSAGE, onReceiveMessage);
-      socket?.off(CONNECT_ERROR, onConnectError);
+      socket.off(RECEIVE_MESSAGE, onReceiveMessage);
     };
-  }, [socket, messages]);
-
-  // console.log(socket?.connected, userAddedRef.current);
-
-  if (socket?.connected && !userAddedRef.current) {
-    // console.log("add user");
-    // add user in socket
-    socket?.emit(ADD_USER, user, () => {
-      userAddedRef.current = true;
-    });
-  }
+  }, [socket, socket?.connected]);
 
   return (
-    <View className="flex-1 p-2 bg-compliment">
+    <View className="p-2 flex-grow bg-compliment">
       <Stack.Screen
         options={{
           header: () => (
@@ -129,8 +78,9 @@ export default function Chat() {
           ),
         }}
       />
+
       <View
-        className="flex-1 max-w-3xl w-[95%] mx-auto justify-between"
+        className="flex-grow max-w-3xl w-[95%] mx-auto justify-between"
         style={{
           rowGap: 5,
         }}

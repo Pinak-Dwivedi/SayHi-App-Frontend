@@ -16,7 +16,7 @@ export default function SearchBar() {
 
     setSearch("");
 
-    return router.navigate(`./(search)/${search}`);
+    return router.navigate(`/(search)/${search}`);
   }
 
   return (
