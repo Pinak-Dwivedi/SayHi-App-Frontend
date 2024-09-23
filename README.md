@@ -20,7 +20,7 @@ REST Api,
 Firebase (Social Auth with Google).
 
 ## You can find the app at
-https://expo.dev/artifacts/eas/xf1iNk1eYVeTSVhoKmuXJr.apk
+https://expo.dev/artifacts/eas/nQwvXzvyvkJinfyD7PaocV.apk
 
 ### So... SayHi to your friends....!
 
